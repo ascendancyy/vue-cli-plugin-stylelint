@@ -47,7 +47,7 @@ function format(label, msg) {
 module.exports = function lint(api, args = {}) {
   if (args.options) {
     execSync('stylelint --help', { stdio: 'inherit' });
-    return;
+    return null;
   }
 
   const cwd = api.resolve('.');
@@ -83,7 +83,7 @@ module.exports = function lint(api, args = {}) {
     formatter: CodeframeFormatter,
   }, normalizeConfig(args));
 
-  stylelint.lint(options)
+  return stylelint.lint(options)
     .then(({ errored, results, output: formattedOutput }) => {
       if (!errored) {
         if (!args.silent) {

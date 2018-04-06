@@ -55,5 +55,5 @@ module.exports = (api, options) => {
   api.render('./template', { config: options.config });
   api.extendPackage(pkg);
 
-  api.onCreateComplete(() => { lint(api, { silent: true }); });
+  api.onCreateComplete(() => lint(api, { silent: true }));
 };
