@@ -44,10 +44,10 @@ function format(label, msg) {
 // ==================================
 
 
-module.exports = function lint(api, args = {}) {
+module.exports = async function lint(api, args = {}) {
   if (args.options) {
     execSync('stylelint --help', { stdio: 'inherit' });
-    return null;
+    return;
   }
 
   const cwd = api.resolve('.');
@@ -83,35 +83,34 @@ module.exports = function lint(api, args = {}) {
     formatter: CodeframeFormatter,
   }, normalizeConfig(args));
 
-  return stylelint.lint(options)
-    .then(({ errored, results, output: formattedOutput }) => {
-      if (!errored) {
-        if (!args.silent) {
-          const hasWarnings = results.some((result) => {
-            if (result.ignored) {
-              return null;
-            }
-            return result.warnings.some(warning => warning.severity === 'warning');
-          });
-          if (hasWarnings) {
-            console.log(formattedOutput);
-          } else {
-            console.log(format(
-              chalk`{bgGreen.black  DONE }`,
-              `No stylelint errors found!${options.fix ? chalk` {blue (autofix enabled)}` : ''}`,
-            ));
+  try {
+    const { errored, results, output: formattedOutput } = await stylelint.lint(options);
+    if (!errored) {
+      if (!args.silent) {
+        const hasWarnings = results.some((result) => {
+          if (result.ignored) {
+            return null;
           }
+          return result.warnings.some(warning => warning.severity === 'warning');
+        });
+        if (hasWarnings) {
+          console.log(formattedOutput);
+        } else {
+          console.log(format(
+            chalk`{bgGreen.black  DONE }`,
+            `No stylelint errors found!${options.fix ? chalk` {blue (autofix enabled)}` : ''}`,
+          ));
         }
-      } else {
-        console.log(formattedOutput);
-        process.exit(1);
       }
-    })
-    .catch((err) => {
-      console.log(format(
-        chalk`{bgRed.black  ERROR }`,
-        err.stack.slice(' Error:'.length),
-      ));
+    } else {
+      console.log(formattedOutput);
       process.exit(1);
-    });
+    }
+  } catch (err) {
+    console.log(format(
+      chalk`{bgRed.black  ERROR }`,
+      err.stack.slice(' Error:'.length),
+    ));
+    process.exit(1);
+  }
 };
