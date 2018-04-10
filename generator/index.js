@@ -21,6 +21,7 @@ module.exports = (api, options = {}) => {
     vue: {
       pluginOptions: {
         lintStyleOnBuild: lintStyleOn.includes('build'),
+        stylelint: {},
       },
     },
   };

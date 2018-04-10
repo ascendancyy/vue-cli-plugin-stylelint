@@ -4,17 +4,17 @@ const CodeframeFormatter = require('stylelint-codeframe-formatter');
 const lint = require('./lint');
 
 module.exports = (api, projectOptions) => {
-  const { pluginOptions: { lintStyleOnBuild } } = projectOptions;
+  const { pluginOptions: { lintStyleOnBuild, stylelint } } = projectOptions;
   if (lintStyleOnBuild) {
     api.chainWebpack((webpackConfig) => {
       /* eslint-disable indent */
       webpackConfig
         .plugin('stylelint')
-          .use(StyleLintPlugin, [{
+          .use(StyleLintPlugin, [Object.assign({
             failOnError: lintStyleOnBuild === 'error',
             files: ['src/**/*.{vue,htm,html,css,sss,less,scss}'],
             formatter: CodeframeFormatter,
-          }])
+          }, stylelint)])
           .end()
         .plugin('friendly-errors')
           .tap(([options]) => {
@@ -53,5 +53,5 @@ module.exports = (api, projectOptions) => {
       '--options': 'display stylelint options',
     },
     details: 'Autofixing is an experimental feature, see https://stylelint.io/user-guide/cli/#autofixing-errors',
-  }, (args) => { lint(api, args); });
+  }, (args) => { lint(api, args, stylelint); });
 };

@@ -44,7 +44,7 @@ function format(label, msg) {
 // ==================================
 
 
-module.exports = async function lint(api, args = {}) {
+module.exports = async function lint(api, args = {}, pluginOptions = {}) {
   if (args.options) {
     execSync('stylelint --help', { stdio: 'inherit' });
     return;
@@ -69,10 +69,12 @@ module.exports = async function lint(api, args = {}) {
       args.formatter = require(formatter);
     } catch (e) {
       delete args.formatter;
-      console.log(format(
-        chalk`{bgYellow.black  WARN }`,
-        chalk`${e.toString()}\n{yellow Using codeframe formatter}`,
-      ));
+      if (typeof pluginOptions.formatter !== 'function') {
+        console.log(format(
+          chalk`{bgYellow.black  WARN }`,
+          chalk`${e.toString()}\n{yellow Invalid formatter}`,
+        ));
+      }
     }
   }
 
@@ -81,7 +83,7 @@ module.exports = async function lint(api, args = {}) {
     fix: true,
     files,
     formatter: CodeframeFormatter,
-  }, normalizeConfig(args));
+  }, pluginOptions, normalizeConfig(args));
 
   try {
     const { errored, results, output: formattedOutput } = await stylelint.lint(options);
