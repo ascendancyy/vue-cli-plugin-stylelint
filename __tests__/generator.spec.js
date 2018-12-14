@@ -58,7 +58,7 @@ test('lint on save', async () => {
       lintStyleOn: 'build',
     },
   });
-  expect(pkg.vue.pluginOptions).toEqual({ lintStyleOnBuild: true });
+  expect(pkg.vue.pluginOptions).toEqual({ lintStyleOnBuild: true, stylelint: {} });
 });
 
 test('lint on commit', async () => {
@@ -74,7 +74,7 @@ test('lint on commit', async () => {
   expect(pkg['lint-staged']).toEqual({
     '*.{vue,htm,html,css,sss,less,scss}': ['vue-cli-service lint:style', 'git add'],
   });
-  expect(pkg.vue.pluginOptions).toEqual({ lintStyleOnBuild: false });
+  expect(pkg.vue.pluginOptions).toEqual({ lintStyleOnBuild: false, stylelint: {} });
 });
 
 test('cancel', async () => {
