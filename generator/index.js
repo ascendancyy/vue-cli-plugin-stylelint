@@ -24,21 +24,31 @@ module.exports = (api, options = {}) => {
         stylelint: {},
       },
     },
+    stylelint: {
+      root: true,
+    },
   };
 
   const { config = 'stylelint-config-standard' } = options;
-  if (config === 'stylelint-config-standard') {
-    Object.assign(pkg.devDependencies, {
-      'stylelint-config-standard': '^18.2.0',
-    });
-  } else if (config === 'stylelint-config-primer') {
-    Object.assign(pkg.devDependencies, {
-      'stylelint-config-primer': '^2.2.5',
-    });
-  } else if (config === '@ascendancyy/stylelint-config-kanbaru') {
-    Object.assign(pkg.devDependencies, {
-      '@ascendancyy/stylelint-config-kanbaru': '^1.0.1',
-    });
+  if (typeof config === 'string' || Array.isArray(config)) {
+    pkg.stylelint.extends = config;
+    if (typeof config === 'string') {
+      if (config === 'stylelint-config-standard') {
+        Object.assign(pkg.devDependencies, {
+          'stylelint-config-standard': '^18.2.0',
+        });
+      } else if (config === 'stylelint-config-primer') {
+        Object.assign(pkg.devDependencies, {
+          'stylelint-config-primer': '^2.2.5',
+        });
+      } else if (config === '@ascendancyy/stylelint-config-kanbaru') {
+        Object.assign(pkg.devDependencies, {
+          '@ascendancyy/stylelint-config-kanbaru': '^1.0.1',
+        });
+      }
+    }
+  } else {
+    Object.assign(pkg.stylelint, config);
   }
 
   if (lintStyleOn.includes('commit')) {
@@ -53,7 +63,14 @@ module.exports = (api, options = {}) => {
     };
   }
 
-  api.render('./template', { config: options.config });
+  api.render('./template');
+  api.addConfigTransform('stylelint', {
+    file: {
+      js: ['.stylelintrc.js', 'stylelint.config.js'],
+      json: ['.stylelintrc', '.stylelintrc.json'],
+      yaml: ['.stylelintrc.yaml', '.stylelintrc.yml'],
+    },
+  });
   api.extendPackage(pkg);
 
   api.onCreateComplete(async () => { await lint(api, { silent: true }); });

@@ -50,6 +50,30 @@ test('kanbaru', async () => {
   expect(pkg.devDependencies).toHaveProperty('@ascendancyy/stylelint-config-kanbaru');
 });
 
+test('custom preset', async () => {
+  const { pkg } = await generateWithPlugin({
+    id: '@ascendancyy/vue-cli-plugin-stylelint',
+    apply: require('../generator'),
+    options: {
+      config: {
+        extends: 'stylelint-config-standard',
+        rules: {
+          indentation: 2,
+        },
+      },
+    },
+  });
+
+  expect(pkg.stylelint).toEqual({
+    root: true,
+    extends: 'stylelint-config-standard',
+    rules: {
+      indentation: 2,
+    },
+  });
+  expect(pkg.devDependencies).not.toHaveProperty('stylelint-config-standard');
+});
+
 test('lint on save', async () => {
   const { pkg } = await generateWithPlugin({
     id: '@ascendancyy/vue-cli-plugin-stylelint',
