@@ -47,7 +47,7 @@ module.exports = (api, projectOptions) => {
 
   api.registerCommand('lint:style', {
     description: 'lint and fix source files',
-    usage: 'vue-cli-service lint [options] [...files]',
+    usage: 'vue-cli-service lint:style [options] [...files]',
     options: {
       '--no-fix': 'do not fix errors',
       '--options': 'display stylelint options',
