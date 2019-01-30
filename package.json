@@ -27,20 +27,20 @@
   },
   "homepage": "https://github.com/ascendancyy/vue-cli-plugin-stylelint#readme",
   "dependencies": {
-    "chalk": "^2.3.2",
-    "inquirer": "^5.2.0",
+    "chalk": "^2.4.2",
+    "inquirer": "^6.2.1",
     "javascript-stringify": "^1.6.0",
     "micromatch": "^3.1.10",
-    "stylelint": "^8.4.0",
+    "stylelint": "^9.10.1",
     "stylelint-codeframe-formatter": "^1.0.4",
-    "stylelint-webpack-plugin": "^0.10.4"
+    "stylelint-webpack-plugin": "^0.10.5"
   },
   "devDependencies": {
-    "@ascendancyy/eslint-config-eva": "^2.0.1",
-    "@vue/cli": "^3.0.0-beta.6",
-    "@vue/cli-test-utils": "^3.0.0-beta.6",
-    "cross-env": "^5.1.4",
+    "@ascendancyy/eslint-config-eva": "^2.0.2",
+    "@vue/cli": "^3.3.0",
+    "@vue/cli-test-utils": "^3.3.0",
+    "cross-env": "^5.2.0",
     "eslint": "^4.19.1",
-    "jest": "^22.4.3"
+    "jest": "^22.4.4"
   }
 }
