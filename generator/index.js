@@ -53,7 +53,7 @@ module.exports = (api, options = {}) => {
 
   if (lintStyleOn.includes('commit')) {
     Object.assign(pkg.devDependencies, {
-      'lint-staged': '^6.0.0',
+      'lint-staged': '^8.0.0',
     });
     pkg.gitHooks = {
       'pre-commit': 'lint-staged',
