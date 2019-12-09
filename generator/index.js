@@ -18,9 +18,7 @@ module.exports = (api, options = {}) => {
       'lint:style': 'vue-cli-service lint:style',
     },
     devDependencies: {
-      stylelint: '^9.0.0',
-      'stylelint-codeframe-formatter': '^1.0.4',
-      'stylelint-webpack-plugin': '^1.1.2',
+      stylelint: '^12.0.0',
     },
     vue: {
       pluginOptions: {

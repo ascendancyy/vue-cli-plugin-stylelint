@@ -1,3 +1,5 @@
+/* eslint-disable global-require */
+
 const lint = require('./lint');
 
 module.exports = (api, projectOptions) => {
