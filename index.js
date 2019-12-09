@@ -1,9 +1,10 @@
-const StyleLintPlugin = require('stylelint-webpack-plugin');
-const CodeframeFormatter = require('stylelint-codeframe-formatter');
-
 const lint = require('./lint');
 
 module.exports = (api, projectOptions) => {
+  const { loadModule } = require('@vue/cli-shared-utils');
+  const cwd = api.resolve('.');
+  const StyleLintPlugin = loadModule('stylelint-webpack-plugin', cwd, true) || require('stylelint-webpack-plugin');
+  const CodeframeFormatter = loadModule('stylelint-codeframe-formatter', cwd, true) || require('stylelint-codeframe-formatter');
   const { pluginOptions: { lintStyleOnBuild, stylelint } } = projectOptions;
   if (lintStyleOnBuild) {
     api.chainWebpack((webpackConfig) => {

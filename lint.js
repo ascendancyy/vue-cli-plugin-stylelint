@@ -6,11 +6,8 @@
   no-console: "off"
 */
 
+const { chalk, loadModule } = require('@vue/cli-shared-utils');
 const { execSync } = require('child_process');
-const chalk = require('chalk');
-const stylelint = require('stylelint');
-const CodeframeFormatter = require('stylelint-codeframe-formatter');
-
 
 // helpers ==========================
 function camelize(str) {
@@ -45,12 +42,14 @@ function format(label, msg) {
 
 
 module.exports = async function lint(api, args = {}, pluginOptions = {}) {
+  const cwd = api.resolve('.');
+  const stylelint = loadModule('stylelint', cwd, true) || require('stylelint');
+  const CodeframeFormatter = loadModule('stylelint-codeframe-formatter', cwd, true) || require('stylelint-codeframe-formatter');
+
   if (args.options) {
     execSync('stylelint --help', { stdio: 'inherit' });
     return;
   }
-
-  const cwd = api.resolve('.');
 
   const files = args._ && args._.length ? args._ : ['src/**/*.{vue,htm,html,css,sss,less,scss}'];
   if (args['no-fix']) {

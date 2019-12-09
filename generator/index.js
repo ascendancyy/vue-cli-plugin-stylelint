@@ -1,4 +1,4 @@
-const chalk = require('chalk');
+const { chalk } = require('@vue/cli-shared-utils');
 const lint = require('../lint');
 
 module.exports = (api, options = {}) => {
@@ -17,7 +17,11 @@ module.exports = (api, options = {}) => {
     scripts: {
       'lint:style': 'vue-cli-service lint:style',
     },
-    devDependencies: {},
+    devDependencies: {
+      stylelint: '^9.0.0',
+      'stylelint-codeframe-formatter': '^1.0.4',
+      'stylelint-webpack-plugin': '^1.1.2',
+    },
     vue: {
       pluginOptions: {
         lintStyleOnBuild: lintStyleOn.includes('build'),
