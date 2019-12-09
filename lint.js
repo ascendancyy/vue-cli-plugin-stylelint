@@ -3,7 +3,8 @@
     "props": true,
     "ignorePropertyModificationsFor": ["args"]
   }],
-  no-console: "off"
+  no-console: "off",
+  global-require: 0
 */
 
 const { chalk, loadModule } = require('@vue/cli-shared-utils');
