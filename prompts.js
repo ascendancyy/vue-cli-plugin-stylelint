@@ -2,23 +2,8 @@
 // project and invoked by `vue invoke`.
 
 const inquirer = require('inquirer');
-const chalk = require('chalk');
-const { execSync } = require('child_process');
+const { chalk, hasGit } = require('@vue/cli-shared-utils');
 const { hasStylelintConfig } = require('./utils');
-
-let git;
-function hasGit() {
-  if (git != null) {
-    return git;
-  }
-  try {
-    execSync('git --version', { stdio: 'ignore' });
-    git = true;
-  } catch (e) {
-    git = false;
-  }
-  return git;
-}
 
 const questions = [
   {
